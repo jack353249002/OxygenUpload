@@ -15,11 +15,14 @@ class OxygenUpload{
     private $key='file';//设置file的键
     private $fileInfor=array();
     private $returnUrl=''; //返回的路径
-    public function __construct($saveUrl,$cacheUrl,$selectDDR,$saveName){
+    private $mandatorySuffix=false;//是否开启强制后缀默认关闭false
+    public $mandatorySuffixName='exe'; //强制后缀名
+    public function __construct($saveUrl,$cacheUrl,$selectDDR,$saveName,$mandatorySuffix=false){
         $this->saveUrl=$saveUrl;
         $this->cacheUrl=$cacheUrl;
         $this->saveName=$saveName;
         $this->ddrSelectEd=$this->ddr["{$selectDDR}"];
+        $this->mandatorySuffix=$mandatorySuffix;
     }
     public function runUpload($file){
         if($this->ddrSelectEd==1) {
@@ -39,8 +42,14 @@ class OxygenUpload{
         if(!file_exists($this->saveUrl)){
             mkdir($this->saveUrl,0777,true);
         }
-        $createFile=$this->saveUrl.'/'.$name.'.'.$this->fileInfor['suffix'];
-        $this->returnUrl=$this->returnUrl.'/'.$name.'.'.$this->fileInfor['suffix'];
+        if($this->mandatorySuffix){
+            $createFile = $this->saveUrl . '/' . $name . '.' . $this->mandatorySuffixName;
+            $this->returnUrl = $this->returnUrl . '/' . $name . '.' .$this->mandatorySuffixName;
+        }
+        else {
+            $createFile = $this->saveUrl . '/' . $name . '.' . $this->fileInfor['suffix'];
+            $this->returnUrl = $this->returnUrl . '/' . $name . '.' . $this->fileInfor['suffix'];
+        }
         move_uploaded_file($tmpfile,$createFile);
         return true;
     }
