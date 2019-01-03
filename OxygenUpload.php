@@ -14,6 +14,7 @@ class OxygenUpload{
     private $ddrSelectEd=null;//类型编号
     private $key='file';//设置file的键
     private $fileInfor=array();
+    private $returnUrl=''; //返回的路径
     public function __construct($saveUrl,$cacheUrl,$selectDDR,$saveName){
         $this->saveUrl=$saveUrl;
         $this->cacheUrl=$cacheUrl;
@@ -27,11 +28,11 @@ class OxygenUpload{
         if($this->ddrSelectEd==2){
             self::baseToImage($file);
         }
-        return true;
+        return $this;
     }
     /*普通postfile上传*/
     private function uploadFile($file){
-        $fileCache=$file["{$this->key}"];
+        $fileCache=$file;
         self::getFileInfor($fileCache);
         $tmpfile=$this->fileInfor['tmp_name'];
         $name=$this->saveName;
@@ -39,6 +40,7 @@ class OxygenUpload{
             mkdir($this->saveUrl,0777,true);
         }
         $createFile=$this->saveUrl.'/'.$name.'.'.$this->fileInfor['suffix'];
+        $this->returnUrl=$this->returnUrl.'/'.$name.'.'.$this->fileInfor['suffix'];
         move_uploaded_file($tmpfile,$createFile);
         return true;
     }
@@ -59,13 +61,19 @@ class OxygenUpload{
         $type=$baseInfor['fileType'];
         $newFile=$this->saveUrl.'/';
         $newFile = $newFile.$this->saveName.".{$type}";
+        $this->returnUrl=$this->returnUrl.'/'.$this->saveName.".{$type}";
         $imgShows=base64_decode($baseInfor['fileBody']);
         if(!file_exists($this->saveUrl)){
             mkdir($this->saveUrl,0777,true);
         }
         if (file_put_contents($newFile,$imgShows)) {
-                return $this;
+                return true;
         }
+    }
+    /*返回图片路径*/
+    public function returnUrl(){
+
+        return $this->returnUrl;
     }
     /*获取base中文件信息*/
     private function getBaseInfor($baseCode){
@@ -82,7 +90,7 @@ class OxygenUpload{
 
     }
     /*生成随机名字*/
-    public function createFileName(){
+    public function createFileMd5Name(){
         $name=md5(uniqid());
         $this->saveName=$name;
         return $this;
@@ -91,10 +99,11 @@ class OxygenUpload{
     public function createDirForDate(){
         $ymd = date('Ymd');
         $this->saveUrl=$this->saveUrl.'/'.$ymd;
+        $this->returnUrl='/'.$ymd;
         return $this;
     }
     /*合并指定文件夹下的所有文件*/
-    public function mergeFile($url,$saveUrl, $suffix){
+    public function mergeFile($url,$saveUrl,$suffix){
         if(file_exists($url)){
             $fileTable=self::fileSorting($url);
             $blockInfo=array();
