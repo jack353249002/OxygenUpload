@@ -90,14 +90,14 @@ class OxygenBurst
         }
     }
     /*按照令牌将文件合并成一个文件*/
-    public function MergeFile(){
+    public function MergeFile($saveName){
         $confArray=$this->jsonInfor;
         $baseUrl=$this->cacheUrl.'/'.$this->token;
         $fileArray=$confArray['nowFile'];
         foreach ($fileArray as &$value){
             $value=$baseUrl.'/'.$value;
         }
-        $oxygenUpload= new OxygenUpload($this->conformityUrl,'','file','t1',true);
+        $oxygenUpload= new OxygenUpload($this->conformityUrl,'','file',$saveName,true);
         $oxygenUpload->mandatorySuffixName=$this->suffix;
         $oxygenUpload->mergeFile($fileArray,$this->conformityUrl,$this->suffix);
     }
