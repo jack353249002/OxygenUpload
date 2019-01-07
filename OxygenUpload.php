@@ -111,15 +111,12 @@ class OxygenUpload{
         $this->returnUrl='/'.$ymd;
         return $this;
     }
-    /*合并指定文件夹下的所有文件*/
-    public function mergeFile($url,$saveUrl,$suffix){
-        if(file_exists($url)){
-            $fileTable=self::fileSorting($url);
-            $blockInfo=array();
+    /*合并所有文件*/
+    public function mergeFile($fileTable,$saveUrl){
             foreach ($fileTable as &$value){
-                $blockInfo[]=$url.'/'.$value['name'];
+                $blockInfo[]=$value;
             }
-            $saveFile=$saveUrl.'/'.$this->saveName.'.'.$suffix;
+            $saveFile=$saveUrl.'/'.$this->saveName.'.'.$this->mandatorySuffixName;
             if($saveFile){
                 $fp   = fopen($saveFile,"wb");
             }else{
@@ -133,7 +130,6 @@ class OxygenUpload{
             }
             fclose ($fp);
             unset($fp);
-        }
         return true;
     }
     /*文件排序*/

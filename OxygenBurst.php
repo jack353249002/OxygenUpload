@@ -20,6 +20,7 @@ class OxygenBurst
     private $nowFile=null;
     private $jsonInfor='';
     public function __construct($token,$cacheUrl,$conformityUrl,$suffix,$total,$successFileCount,$nowFile){
+    public function __construct($token,$cacheUrl,$conformityUrl='',$suffix='',$total=0,$successFileCount=0,$nowFile=null){
         $this->token=$token;
         $this->cacheUrl=$cacheUrl;
         $this->conformityUrl=$conformityUrl;
@@ -88,6 +89,18 @@ class OxygenBurst
         else{
             return false;
         }
+    }
+    /*按照令牌将文件合并成一个文件*/
+    public function MergeFile(){
+        $confArray=$this->jsonInfor;
+        $baseUrl=$this->cacheUrl.'/'.$this->token;
+        $fileArray=$confArray['nowFile'];
+        foreach ($fileArray as &$value){
+            $value=$baseUrl.'/'.$value;
+        }
+        $oxygenUpload= new OxygenUpload($this->conformityUrl,'','file','t1',true);
+        $oxygenUpload->mandatorySuffixName=$this->suffix;
+        $oxygenUpload->mergeFile($fileArray,$this->conformityUrl,$this->suffix);
     }
 
 }
