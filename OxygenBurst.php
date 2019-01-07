@@ -19,7 +19,6 @@ class OxygenBurst
     private $successFileCount=0;//已经成功上传的个数
     private $nowFile=null;
     private $jsonInfor='';
-    public function __construct($token,$cacheUrl,$conformityUrl,$suffix,$total,$successFileCount,$nowFile){
     public function __construct($token,$cacheUrl,$conformityUrl='',$suffix='',$total=0,$successFileCount=0,$nowFile=null){
         $this->token=$token;
         $this->cacheUrl=$cacheUrl;
