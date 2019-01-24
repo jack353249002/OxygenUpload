@@ -33,7 +33,10 @@ class OxygenUpload{
         }
         return $this;
     }
-    /*普通postfile上传*/
+    /*
+     * 普通postfile上传
+     * file 文件流
+     * */
     private function uploadFile($file){
         $fileCache=$file;
         self::getFileInfor($fileCache);
@@ -53,7 +56,10 @@ class OxygenUpload{
         move_uploaded_file($tmpfile,$createFile);
         return true;
     }
-    /*获取图片信息*/
+    /*
+     * 获取图片信息
+     * fileArray:文件流
+     * */
     public function getFileInfor($fileArray){
         $this->fileInfor['name']=$fileArray['name'];
         /*获取图片类型*/
@@ -64,7 +70,10 @@ class OxygenUpload{
         $this->fileInfor['tmp_name']=$fileArray['tmp_name'];
         return $this;
     }
-    /*base64转文件*/
+    /*
+     * base64转文件
+     * baseCode:base64码
+     * */
     public function baseToImage($baseCode){
         $baseInfor=self::getBaseInfor($baseCode);
         $type=$baseInfor['fileType'];
@@ -84,7 +93,10 @@ class OxygenUpload{
 
         return $this->returnUrl;
     }
-    /*获取base中文件信息*/
+    /*
+     * 获取base中文件信息
+     * baseCode:base64码
+     * */
     private function getBaseInfor($baseCode){
         $baseInfor=explode(',',$baseCode);//base64信息
         $fileInfor=$baseInfor[0];
@@ -111,7 +123,11 @@ class OxygenUpload{
         $this->returnUrl='/'.$ymd;
         return $this;
     }
-    /*合并所有文件*/
+    /*
+     * 合并所有文件
+     *fileTable:文件地址列表[url1,url2]
+     * saveUrl:合并后的文件存储目录
+     * */
     public function mergeFile($fileTable,$saveUrl){
             foreach ($fileTable as &$value){
                 $blockInfo[]=$value;

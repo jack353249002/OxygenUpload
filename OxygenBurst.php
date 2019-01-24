@@ -104,7 +104,11 @@ class OxygenBurst
         $jsonData=json_encode($dataTeample);
         return $jsonData;
     }
-    /*写入json数据到config.json中*/
+    /*
+     * 写入json数据到config.json中
+     * json:json字符串
+     * saveUrl:保存的路径
+     * */
     private function writeJsonToConfig($json,$saveUrl){
         $fileUrl=$saveUrl.'/'.'config.json';
         $file=fopen($fileUrl, "w+");
@@ -115,7 +119,10 @@ class OxygenBurst
             return false;
         }
     }
-    /*按照令牌将文件合并成一个文件*/
+    /*
+     * 按照令牌将文件合并成一个文件
+     * saveName:文件名称
+     * */
     public function MergeFile($saveName){
         $confArray=$this->jsonInfor;
         $baseUrl=$this->cacheUrl.'/'.$this->token;
