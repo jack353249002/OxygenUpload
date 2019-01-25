@@ -1,0 +1,13 @@
+{
+    "name": "junsong/oxygen-upload",
+    "description": "oxygenUpload is a upload tool",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "junsong",
+            "email": "353249002@qq.com"
+        }
+    ],
+    "require": {}
+}
