@@ -9,7 +9,7 @@
  *分片上传工具
  *
  */
-namespace OxygenUpload;
+namespace oxygen\upload;
 class OxygenBurst
 {
     private $token='';//文件会话(指纹)
