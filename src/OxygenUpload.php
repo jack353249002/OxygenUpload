@@ -5,7 +5,7 @@
  * Date: 2018/12/29
  * Time: 16:07
  */
-namespace OxygenUpload;
+namespace oxygen\upload;
 /*上传工具*/
 class OxygenUpload{
     private $saveUrl='';//图片保存地址目录
